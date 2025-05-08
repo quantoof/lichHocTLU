@@ -110,10 +110,23 @@ def schedule():
             session['semester_id'] = semester_id
             session['semester_id_expiry'] = (now + timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%S")
 
-        token = session['token']
-        schedule_url = f"/api/StudentCourseSubject/studentLoginUser/{semester_id}"
-        full_schedule = api_get(schedule_url, token)
-        logging.info(f"Full schedule: {full_schedule}")
+        # Kiểm tra cache cho lịch học
+        schedule_cache = session.get('schedule_cache')
+        schedule_cache_expiry = session.get('schedule_cache_expiry')
+        cache_expired = True
+        
+        if schedule_cache and schedule_cache_expiry:
+            cache_expiry = datetime.strptime(schedule_cache_expiry, "%Y-%m-%dT%H:%M:%S")
+            cache_expired = now >= cache_expiry
+
+        if not schedule_cache or cache_expired:
+            token = session['token']
+            schedule_url = f"/api/StudentCourseSubject/studentLoginUser/{semester_id}"
+            full_schedule = api_get(schedule_url, token)
+            session['schedule_cache'] = full_schedule
+            session['schedule_cache_expiry'] = (now + timedelta(minutes=30)).strftime("%Y-%m-%dT%H:%M:%S")
+        else:
+            full_schedule = schedule_cache
 
         # Lọc lịch học theo tuần đã chọn
         schedule = []
@@ -127,7 +140,7 @@ def schedule():
                 subject_copy['courseSubject'] = subject_copy['courseSubject'].copy()
                 subject_copy['courseSubject']['timetables'] = filtered_timetables
                 schedule.append(subject_copy)
-        logging.info(f"Filtered schedule: {schedule}")
+
     except Exception as e:
         logging.error(f"Schedule error: {e}")
         error = str(e)
