@@ -91,7 +91,7 @@ def schedule():
     schedule = None
     error = None
     selected_week = int(request.form.get('week', 36)) if request.method == 'POST' else 36
-    allowed_weeks = range(1, 37)
+    allowed_weeks = [36, 37, 38, 39, 40, 41]
 
     if selected_week not in allowed_weeks:
         return render_template('index.html', error="Tuần không hợp lệ", csrf_token=generate_csrf())
