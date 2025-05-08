@@ -32,19 +32,33 @@ def load_user(user_id):
     # Ở đây bạn có thể lấy user từ database, ví dụ:
     return User(user_id)
 
-def api_post(endpoint, data, token=None, timeout=10):
+def api_post(endpoint, data, token=None, timeout=30):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
     url = f"{API_BASE}{endpoint}"
-    resp = requests.post(url, data=data, headers=headers, verify=False, timeout=timeout)
-    resp.raise_for_status()
-    return resp.json()
+    try:
+        resp = requests.post(url, data=data, headers=headers, verify=False, timeout=timeout)
+        resp.raise_for_status()
+        return resp.json()
+    except requests.exceptions.Timeout:
+        raise Exception("Kết nối đến máy chủ bị timeout. Vui lòng thử lại sau.")
+    except requests.exceptions.ConnectionError:
+        raise Exception("Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet của bạn.")
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"Lỗi kết nối: {str(e)}")
 
-def api_get(endpoint, token=None, timeout=10):
+def api_get(endpoint, token=None, timeout=30):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
     url = f"{API_BASE}{endpoint}"
-    resp = requests.get(url, headers=headers, verify=False, timeout=timeout)
-    resp.raise_for_status()
-    return resp.json()
+    try:
+        resp = requests.get(url, headers=headers, verify=False, timeout=timeout)
+        resp.raise_for_status()
+        return resp.json()
+    except requests.exceptions.Timeout:
+        raise Exception("Kết nối đến máy chủ bị timeout. Vui lòng thử lại sau.")
+    except requests.exceptions.ConnectionError:
+        raise Exception("Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet của bạn.")
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"Lỗi kết nối: {str(e)}")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -75,7 +89,7 @@ def login():
             return redirect(url_for('schedule'))
         except Exception as e:
             logging.error(f"Login failed: {e}")
-            error = f"Đăng nhập thất bại: {e}"
+            error = str(e)
     response = make_response(render_template('login.html', error=error, csrf_token=generate_csrf()))
     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response.headers['Pragma'] = 'no-cache'
