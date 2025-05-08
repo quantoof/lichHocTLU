@@ -94,7 +94,7 @@ def schedule():
     allowed_weeks = range(1, 37)
 
     if selected_week not in allowed_weeks:
-        return render_template('index.html', error="Tuần không hợp lệ")
+        return render_template('index.html', error="Tuần không hợp lệ", csrf_token=generate_csrf())
 
     try:
         now = datetime.utcnow()
@@ -131,7 +131,7 @@ def schedule():
     except Exception as e:
         logging.error(f"Schedule error: {e}")
         error = str(e)
-    return render_template('index.html', schedule=schedule, error=error, selected_week=selected_week)
+    return render_template('index.html', schedule=schedule, error=error, selected_week=selected_week, csrf_token=generate_csrf())
 
 def get_latest_semester_id(token):
     data = api_get("/api/schoolyear/1/10000", token)
