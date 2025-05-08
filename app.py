@@ -146,6 +146,13 @@ def schedule():
         error = str(e)
     return render_template('index.html', schedule=schedule, error=error, selected_week=selected_week, csrf_token=generate_csrf())
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for('login'))
+
 def get_latest_semester_id(token):
     data = api_get("/api/schoolyear/1/10000", token)
     semester_ids = [
