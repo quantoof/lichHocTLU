@@ -179,5 +179,66 @@ def get_latest_semester_id(token):
         raise Exception("Không tìm thấy semesterId nào trong dữ liệu trả về.")
     return max(semester_ids)
 
+@app.route('/tuition', methods=['GET'])
+@login_required
+def tuition():
+    if 'token' not in session:
+        return redirect(url_for('login'))
+
+    error = None
+    tuition_info = None
+
+    try:
+        token = session['token']
+        
+        # Kiểm tra cache cho học phí
+        now = datetime.utcnow()
+        tuition_cache = session.get('tuition_cache')
+        tuition_cache_expiry = session.get('tuition_cache_expiry')
+        cache_expired = True
+        
+        if tuition_cache and tuition_cache_expiry:
+            cache_expiry = datetime.strptime(tuition_cache_expiry, "%Y-%m-%dT%H:%M:%S")
+            cache_expired = now >= cache_expiry
+
+        if not tuition_cache or cache_expired:
+            # 1. Lấy danh sách các khoản thu
+            tuition_list = api_get("/api/student/viewstudentpayablebyLoginUser", token)
+            # 2. Lấy id của khoản thu cần xem chi tiết (ví dụ: khoản đầu tiên)
+            if tuition_list and tuition_list.get('receiveAbleNotCompleteDtos'):
+                receive_id = tuition_list['receiveAbleNotCompleteDtos'][0]['id']
+                # 3. Lấy chi tiết khoản thu
+                tuition_info = api_get(f"/api/studenttuitionfeecalculate/findDtoByReceivePayableId/{receive_id}", token)
+                # Lưu vào cache
+                session['tuition_cache'] = tuition_info
+                session['tuition_cache_expiry'] = (now + timedelta(minutes=30)).strftime("%Y-%m-%dT%H:%M:%S")
+            else:
+                error = "Không tìm thấy khoản thu nào."
+        else:
+            tuition_info = tuition_cache
+
+    except Exception as e:
+        error = str(e)
+
+    return render_template('tuition.html', tuition_info=tuition_info, error=error)
+
+def get_tuition_detail_by_receive_id(receive_id, token):
+    endpoint = f"/api/studenttuitionfeecalculate/findDtoByReceivePayableId/{receive_id}"
+    return api_get(endpoint, token)
+
+@app.route('/tuition/detail/<int:receive_id>', methods=['GET'])
+@login_required
+def tuition_detail(receive_id):
+    if 'token' not in session:
+        return redirect(url_for('login'))
+    error = None
+    detail = None
+    try:
+        token = session['token']
+        detail = get_tuition_detail_by_receive_id(receive_id, token)
+    except Exception as e:
+        error = str(e)
+    return render_template('tuition_detail.html', detail=detail, error=error, csrf_token=generate_csrf())
+
 if __name__ == '__main__':
     app.run(debug=True)

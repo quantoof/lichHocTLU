@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tra cứu học phí TLU</title>
+    <script>
+      tailwind.config = { darkMode: "class" };
+    </script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <style>
+      body,
+      html {
+        font-family: "Quicksand", sans-serif;
+      }
+      .loading {
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
+      }
+      .loading.loaded {
+        opacity: 1;
+      }
+    </style>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://cdn-icons-png.flaticon.com/512/2991/2991108.png"
+    />
+  </head>
+  <body
+    class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 min-h-screen text-gray-900 dark:text-gray-100"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div
+        class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-4 sm:p-10 mt-6 sm:mt-12 border border-gray-100 dark:border-gray-800 loading"
+        id="mainContent"
+      >
+        <div class="flex justify-between items-center mb-6 sm:mb-8">
+          <h2
+            class="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500 dark:from-blue-400 dark:to-purple-300 drop-shadow"
+          >
+            Tra cứu học phí
+          </h2>
+          <div class="flex space-x-4">
+            <a
+              href="{{ url_for('schedule') }}"
+              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Lịch học
+            </a>
+            <a
+              href="{{ url_for('logout') }}"
+              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v3a1 1 0 102 0V9z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Đăng xuất
+            </a>
+          </div>
+        </div>
+
+        {% if error %}
+        <div
+          class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 rounded-lg p-3 sm:p-4 mt-4 text-sm sm:text-base"
+        >
+          {{ error }}
+        </div>
+        {% endif %} {% if tuition_info %}
+        <div class="overflow-x-auto">
+          <table
+            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+          >
+            <thead class="bg-gray-50 dark:bg-gray-800">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Mã môn học
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Tên môn học
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Số tín chỉ
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Học phí/tín chỉ
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Tổng học phí môn
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700"
+            >
+              {% for detail in tuition_info.details %}
+              <tr>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+                >
+                  {{ detail.subjectCode if detail.subjectCode else '' }}
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+                >
+                  {{ detail.subjectName if detail.subjectName else '' }}
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-center"
+                >
+                  {{ detail.numberOfCredit if detail.numberOfCredit else 0 }}
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-center"
+                >
+                  {{ "{:,.0f}".format(detail.feeUnit) if detail.feeUnit else '0'
+                  }} VNĐ
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-center"
+                >
+                  {{ "{:,.0f}".format(detail.tuitionFee) if detail.tuitionFee
+                  else '0' }} VNĐ
+                </td>
+              </tr>
+              {% endfor %}
+              <tr class="bg-gray-50 dark:bg-gray-800">
+                <td
+                  colspan="4"
+                  class="px-6 py-4 text-right text-sm font-medium text-gray-900 dark:text-gray-100"
+                >
+                  Tổng số tín chỉ:
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100"
+                >
+                  {{ tuition_info.numberOfCredit if tuition_info.numberOfCredit
+                  else 0 }}
+                </td>
+              </tr>
+              <tr class="bg-gray-50 dark:bg-gray-800">
+                <td
+                  colspan="4"
+                  class="px-6 py-4 text-right text-sm font-medium text-gray-900 dark:text-gray-100"
+                >
+                  Tổng học phí học kỳ:
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100"
+                >
+                  {{ "{:,.0f}".format(tuition_info.totalTuitionFee) if
+                  tuition_info.totalTuitionFee else '0' }} VNĐ
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+          <svg
+            class="mx-auto h-12 w-12 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+            Không có dữ liệu học phí
+          </h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Vui lòng thử lại sau.
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("mainContent").classList.add("loaded");
+      });
+    </script>
+  </body>
+</html>
