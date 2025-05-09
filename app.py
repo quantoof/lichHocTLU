@@ -32,7 +32,7 @@ def load_user(user_id):
     # Ở đây bạn có thể lấy user từ database, ví dụ:
     return User(user_id)
 
-def api_post(endpoint, data, token=None, timeout=30):
+def api_post(endpoint, data, token=None, timeout=10):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
     url = f"{API_BASE}{endpoint}"
     try:
@@ -46,7 +46,7 @@ def api_post(endpoint, data, token=None, timeout=30):
     except requests.exceptions.RequestException as e:
         raise Exception(f"Lỗi kết nối: {str(e)}")
 
-def api_get(endpoint, token=None, timeout=30):
+def api_get(endpoint, token=None, timeout=10):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
     url = f"{API_BASE}{endpoint}"
     try:
@@ -202,14 +202,25 @@ def tuition():
             cache_expired = now >= cache_expiry
 
         if not tuition_cache or cache_expired:
-            # 1. Lấy danh sách các khoản thu
-            tuition_list = api_get("/api/student/viewstudentpayablebyLoginUser", token)
-            # 2. Lấy id của khoản thu cần xem chi tiết (ví dụ: khoản đầu tiên)
+            # Sử dụng session để lưu danh sách khoản thu
+            tuition_list_cache = session.get('tuition_list_cache')
+            tuition_list_expiry = session.get('tuition_list_expiry')
+            list_expired = True
+
+            if tuition_list_cache and tuition_list_expiry:
+                list_expiry = datetime.strptime(tuition_list_expiry, "%Y-%m-%dT%H:%M:%S")
+                list_expired = now >= list_expiry
+
+            if not tuition_list_cache or list_expired:
+                tuition_list = api_get("/api/student/viewstudentpayablebyLoginUser", token)
+                session['tuition_list_cache'] = tuition_list
+                session['tuition_list_expiry'] = (now + timedelta(minutes=30)).strftime("%Y-%m-%dT%H:%M:%S")
+            else:
+                tuition_list = tuition_list_cache
+
             if tuition_list and tuition_list.get('receiveAbleNotCompleteDtos'):
                 receive_id = tuition_list['receiveAbleNotCompleteDtos'][0]['id']
-                # 3. Lấy chi tiết khoản thu
                 tuition_info = api_get(f"/api/studenttuitionfeecalculate/findDtoByReceivePayableId/{receive_id}", token)
-                # Lưu vào cache
                 session['tuition_cache'] = tuition_info
                 session['tuition_cache_expiry'] = (now + timedelta(minutes=30)).strftime("%Y-%m-%dT%H:%M:%S")
             else:
