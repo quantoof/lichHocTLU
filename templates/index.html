@@ -27,6 +27,14 @@
           margin-top: 1.5rem !important;
         }
       }
+      @media (min-width: 640px) {
+        .sm-height-100 {
+          height: 100px !important;
+        }
+      }
+      .height-80 {
+        height: 80px;
+      }
     </style>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2991/2991108.png" />
   </head>
@@ -61,18 +69,18 @@
         {% endif %}
         {% if schedule %}
         <h4 class="mt-6 sm:mt-10 text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100">Thời khóa biểu tuần</h4>
-        <div class="overflow-x-auto mt-4 sm:mt-6">
-          <table class="min-w-full border-separate border-spacing-0 rounded-xl overflow-visible text-center align-middle bg-white dark:bg-gray-900 shadow table-fixed">
+        <div class="overflow-hidden mt-4 sm:mt-6">
+          <table class="w-full border-separate border-spacing-0 rounded-xl overflow-hidden text-center align-middle bg-white dark:bg-gray-900 shadow table-fixed">
             <thead>
               <tr>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Tiết / Thứ</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ hai</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ ba</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ tư</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ năm</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ sáu</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ bảy</div></th>
-                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Chủ nhật</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Tiết / Thứ</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ hai</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ ba</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ tư</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ năm</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ sáu</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Thứ bảy</div></th>
+                <th class="bg-blue-50 dark:bg-gray-800 text-blue-700 dark:text-blue-300 font-bold border-b border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;">Chủ nhật</div></th>
               </tr>
             </thead>
             <tbody>
@@ -95,10 +103,10 @@
               ] %}
               {% for tiet in tiet_gio %}
               <tr class="{% if loop.index is even %}bg-blue-50 dark:bg-gray-800{% else %}bg-white dark:bg-gray-900{% endif %}">
-                <td class="border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle font-semibold text-gray-700 dark:text-gray-100 mobile-text-sm overflow-visible" style="width:12.5%;height:80px;sm:height:100px;"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;flex-direction:column;">Tiết {{ tiet.tiet }}<br><span class="text-xs text-gray-400">({{ tiet.start }} ➔ {{ tiet.end }})</span></div></td>
+                <td class="border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle font-semibold text-gray-700 dark:text-gray-100 mobile-text-sm overflow-visible height-80 sm-height-100" style="width:12.5%"> <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;text-overflow:ellipsis;flex-direction:column;">Tiết {{ tiet.tiet }}<br><span class="text-xs text-gray-400">({{ tiet.start }} ➔ {{ tiet.end }})</span></div></td>
                 {% for thu in range(2, 9) %}
                 {% if thu != 8 %}
-                <td class="border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm overflow-visible" style="width:12.5%;height:80px;sm:height:100px;">
+                <td class="border-b border-r border-gray-200 dark:border-gray-700 text-center align-middle mobile-text-sm overflow-visible height-80 sm-height-100" style="width:12.5%">
                   {% set found = false %}
                   {% for subject in schedule %}
                     {% for t in subject.courseSubject.timetables %}
@@ -106,7 +114,7 @@
                         <div class="relative group inline-block">
                           <span class="font-semibold text-blue-700 dark:text-blue-300 cursor-pointer group-hover:text-blue-900 dark:group-hover:text-blue-200 transition break-words whitespace-normal text-sm sm:text-base">{{ subject.subjectName }}</span>
                           <span class="block font-semibold text-red-600 dark:text-red-400 mt-1 text-xs sm:text-sm">{{ t.roomName }}</span>
-                          <span class="absolute z-20 left-full top-1/4 ml-2 w-48 sm:w-56 -translate-y-1/2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left rounded-xl border border-blue-200 dark:border-blue-700 shadow-xl p-3 sm:p-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 text-sm sm:text-base">
+                          <span class="absolute z-20 left-0 top-full mt-2 w-48 sm:w-56 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left rounded-xl border border-blue-200 dark:border-blue-700 shadow-xl p-3 sm:p-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 text-sm sm:text-base">
                             Mã môn: {{ subject.subjectCode }}<br>
                             Phòng: {{ t.roomName }}
                           </span>
@@ -118,7 +126,7 @@
                   {% if not found %} {% endif %}
                 </td>
                 {% else %}
-                <td class="border-b border-gray-200 dark:border-gray-700 text-center align-middle" style="width:12.5%;height:80px;sm:height:100px;"></td>
+                <td class="border-b border-gray-200 dark:border-gray-700 text-center align-middle height-80 sm-height-100" style="width:12.5%"></td>
                 {% endif %}
                 {% endfor %}
               </tr>
